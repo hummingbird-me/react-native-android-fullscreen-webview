@@ -14,6 +14,7 @@ const ReactNative = require('react-native');
 const React = require('react');
 const PropTypes = require('prop-types');
 const keyMirror = require('fbjs/lib/keyMirror');
+const Immersive = require('react-native-immersive');
 const EdgeInsetsPropType = ReactNative.EdgeInsetsPropType;
 const ActivityIndicator = ReactNative.ActivityIndicator;
 const StyleSheet = ReactNative.StyleSheet;
@@ -23,6 +24,7 @@ const View = ReactNative.View;
 const ViewPropTypes = ReactNative.ViewPropTypes;
 const requireNativeComponent = ReactNative.requireNativeComponent;
 const resolveAssetSource = ReactNative.Image.resolveAssetSource;
+
 
 const RCT_WEBVIEW_REF = 'webview';
 
@@ -242,6 +244,7 @@ class WebView extends React.Component {
   componentDidMount() {
     this.enterFullScreen = DeviceEventEmitter.addListener(EVENT_ENTER_FULLSCREEN, this.onFullScreen);
     this.exitFullScreen = DeviceEventEmitter.addListener(EVENT_EXIT_FULLSCREEN, this.onExitFullScreen);
+    Immersive.addImmersiveListener(this.restoreImmersive);
   }
 
   componentWillUnmount() {
@@ -252,13 +255,22 @@ class WebView extends React.Component {
     if (this.exitFullScreen) {
       this.exitFullScreen.remove();
     }
+
+    Immersive.removeImmersiveListener(this.restoreImmersive);
   }
 
   onFullScreen() {
+    Immersive.on();
+    Immersive.setImmersive(true)
   }
 
   onExitFullScreen() {
+    Immersive.off()
+    Immersive.setImmersive(false)
+  }
 
+  restoreImmersive = () => {
+    Immersive.on()
   }
 
   render() {
