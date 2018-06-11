@@ -18,12 +18,16 @@ const EdgeInsetsPropType = ReactNative.EdgeInsetsPropType;
 const ActivityIndicator = ReactNative.ActivityIndicator;
 const StyleSheet = ReactNative.StyleSheet;
 const UIManager = ReactNative.UIManager;
+const DeviceEventEmitter = ReactNative.DeviceEventEmitter;
 const View = ReactNative.View;
 const ViewPropTypes = ReactNative.ViewPropTypes;
 const requireNativeComponent = ReactNative.requireNativeComponent;
 const resolveAssetSource = ReactNative.Image.resolveAssetSource;
 
 const RCT_WEBVIEW_REF = 'webview';
+
+const EVENT_ENTER_FULLSCREEN = 'VideoWillEnterFullScreen';
+const EVENT_EXIT_FULLSCREEN = 'VideoWillExitFullScreen';
 
 const WebViewState = keyMirror({
   IDLE: null,
@@ -233,6 +237,28 @@ class WebView extends React.Component {
     if (this.props.startInLoadingState) {
       this.setState({ viewState: WebViewState.LOADING });
     }
+  }
+
+  componentDidMount() {
+    this.enterFullScreen = DeviceEventEmitter.addListener(EVENT_ENTER_FULLSCREEN, this.onFullScreen);
+    this.exitFullScreen = DeviceEventEmitter.addListener(EVENT_EXIT_FULLSCREEN, this.onExitFullScreen);
+  }
+
+  componentWillUnmount() {
+    if (this.enterFullScreen) {
+      this.enterFullScreen.remove();
+    }
+
+    if (this.exitFullScreen) {
+      this.exitFullScreen.remove();
+    }
+  }
+
+  onFullScreen() {
+  }
+
+  onExitFullScreen() {
+
   }
 
   render() {

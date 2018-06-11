@@ -3,12 +3,20 @@ package com.airship.customwebview;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+
+import com.facebook.react.ReactRootView;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.uimanager.ThemedReactContext;
 
 import static android.view.ViewGroup.LayoutParams;
 
@@ -25,10 +33,14 @@ public class VideoWebChromeClient extends WebChromeClient {
   private Activity mActivity;
   private View mWebView;
   private View mVideoView;
+  private ThemedReactContext mReactContext;
+  private Boolean isVideoFullscreen;
 
-  public VideoWebChromeClient(Activity activity, WebView webView) {
+  public VideoWebChromeClient(Activity activity, WebView webView, ThemedReactContext reactContext) {
     mWebView = webView;
     mActivity = activity;
+    isVideoFullscreen = false;
+    mReactContext = reactContext;
   }
 
   @Override
@@ -37,6 +49,9 @@ public class VideoWebChromeClient extends WebChromeClient {
       callback.onCustomViewHidden();
       return;
     }
+
+    WritableMap params = Arguments.createMap();
+    sendEvent(mReactContext, "VideoWillEnterFullScreen", params);
 
     // Store the view and it's callback for later, so we can dispose of them
     // correctly
@@ -52,6 +67,7 @@ public class VideoWebChromeClient extends WebChromeClient {
     getRootView().addView(view, FULLSCREEN_LAYOUT_PARAMS);
 
     mWebView.setVisibility(View.GONE);
+    isVideoFullscreen = true;
   }
 
   @Override
@@ -59,6 +75,9 @@ public class VideoWebChromeClient extends WebChromeClient {
     if (mVideoView == null) {
       return;
     }
+    
+    WritableMap params = Arguments.createMap();
+    sendEvent(mReactContext, "VideoWillExitFullScreen", params);
 
     mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     mVideoView.setSystemUiVisibility(0);
@@ -70,9 +89,23 @@ public class VideoWebChromeClient extends WebChromeClient {
     mCustomViewCallback.onCustomViewHidden();
 
     mWebView.setVisibility(View.VISIBLE);
+    isVideoFullscreen = false;
+  }
+
+  private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
+    reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
   }
 
   private ViewGroup getRootView() {
     return ((ViewGroup) mActivity.findViewById(android.R.id.content));
+  }
+
+  public boolean onBackPressed() {
+    if (isVideoFullscreen) {
+      onHideCustomView();
+      return true;
+    } else {
+      return false;
+    }
   }
 }
