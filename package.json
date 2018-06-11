@@ -1,6 +1,6 @@
 {
   "name": "react-native-android-fullscreen-webview-video",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "url": "https://github.com/teamairship/react-native-android-fullscreen-webview-video",
   "description": "WebView fullscreen video support for Android in React Native",
   "main": "index.js",
@@ -24,7 +24,4 @@
     "url": "https://github.com/teamairship/react-native-android-fullscreen-webview-video/issues"
   },
   "homepage": "https://github.com/teamairship/react-native-android-fullscreen-webview-video#readme",
-  "dependencies": {
-    "react-native-immersive": "^1.1.0"
-  }
 }

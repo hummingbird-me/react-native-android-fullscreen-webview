@@ -14,7 +14,7 @@ const ReactNative = require('react-native');
 const React = require('react');
 const PropTypes = require('prop-types');
 const keyMirror = require('fbjs/lib/keyMirror');
-const Immersive = require('react-native-immersive');
+const StatusBar = ReactNative.StatusBar;
 const EdgeInsetsPropType = ReactNative.EdgeInsetsPropType;
 const ActivityIndicator = ReactNative.ActivityIndicator;
 const StyleSheet = ReactNative.StyleSheet;
@@ -244,7 +244,6 @@ class WebView extends React.Component {
   componentDidMount() {
     this.enterFullScreen = DeviceEventEmitter.addListener(EVENT_ENTER_FULLSCREEN, this.onFullScreen);
     this.exitFullScreen = DeviceEventEmitter.addListener(EVENT_EXIT_FULLSCREEN, this.onExitFullScreen);
-    Immersive.addImmersiveListener(this.restoreImmersive);
   }
 
   componentWillUnmount() {
@@ -255,22 +254,14 @@ class WebView extends React.Component {
     if (this.exitFullScreen) {
       this.exitFullScreen.remove();
     }
-
-    Immersive.removeImmersiveListener(this.restoreImmersive);
   }
 
   onFullScreen() {
-    Immersive.on();
-    Immersive.setImmersive(true)
+    StatusBar.setHidden(true, 'fade');
   }
 
   onExitFullScreen() {
-    Immersive.off()
-    Immersive.setImmersive(false)
-  }
-
-  restoreImmersive = () => {
-    Immersive.on()
+    StatusBar.setHidden(false, 'fade');
   }
 
   render() {
