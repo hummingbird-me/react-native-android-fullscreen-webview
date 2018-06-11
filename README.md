@@ -7,15 +7,35 @@ fullscreen by default. This package essentially copies the existing WebView for 
 
 ## Getting started
 
-`yarn add react-native-android-fullscreen-webview-video`
+`yarn add https://github.com/Mikunj/react-native-android-fullscreen-webview-video`
 
-or
-
-`npm install react-native-android-fullscreen-webview-video --save`
 
 ##### Automatically link the library
 
 `react-native link`
+
+##### Update AndroidManifest.xml
+
+Under your main activity, make sure you add:
+
+```
+android:configChanges="orientation"
+android:hardwareAccelerated="true"
+```
+
+Example:
+
+```
+<activity
+  android:name=".MainActivity"
+  android:label="@string/app_name"
+  android:launchMode="singleTop"
+  android:screenOrientation="portrait"
+  android:configChanges="keyboard|keyboardHidden|screenSize|orientation"
+  android:windowSoftInputMode="adjustPan"
+  android:hardwareAccelerated="true"
+>
+```
 
 ## Usage
 
