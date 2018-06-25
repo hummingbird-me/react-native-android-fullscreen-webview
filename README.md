@@ -7,7 +7,7 @@ fullscreen by default. This package essentially copies the existing WebView for 
 
 ## Getting started
 
-`yarn add https://github.com/Mikunj/react-native-android-fullscreen-webview-video`
+`yarn add https://github.com/hummingbird-me/react-native-android-fullscreen-webview-video`
 
 
 ##### Automatically link the library
