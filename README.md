@@ -1,13 +1,13 @@
-## react-native-android-fullscreen-webview-video
+## react-native-android-fullscreen-webview
 
 ## Overview
 
-The WebView component that comes with React Native doesn't have the ability to show videos
+The WebView component that comes with React Native doesn't have the ability to show `s
 fullscreen by default. This package essentially copies the existing WebView for Android and adds some extra functionality to enable fullscreen videos. This behavior is supported by default for iOS, so this will simply use the native iOS WebView.
 
 ## Getting started
 
-`yarn add https://github.com/hummingbird-me/react-native-android-fullscreen-webview-video`
+`yarn add hummingbird-me/react-native-android-fullscreen-webview`
 
 
 ##### Automatically link the library
@@ -42,7 +42,7 @@ Example:
 This works exactly like the existing `WebView` component, so there is nothing extra that needs to be added.
 
 ```
-import WebView from 'react-native-android-fullscreen-webview-video';
+import WebView from 'react-native-android-fullscreen-webview';
 
 ...
 
