@@ -1,6 +1,6 @@
 {
   "name": "react-native-android-fullscreen-webview",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "url": "https://github.com/hummingbird-me/react-native-android-fullscreen-webview",
   "description": "WebView fullscreen video support for Android in React Native",
   "main": "index.js",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/hummingbird-me/react-native-android-fullscreen-webview.git"
   },
-  "author": "Airship",
+  "author": "Kitsu",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hummingbird-me/react-native-android-fullscreen-webview/issues"
